@@ -5,7 +5,7 @@
     "main": "index.js",
     "type": "module",
     "prisma": {
-        "schema": "libs/schema.prisma"
+        "schema": "./libs/schema.prisma"
     },
     "scripts": {
         "dev": "nodemon index.js",

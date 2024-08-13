@@ -1,10 +1,44 @@
-class NotesController {
-  constructor(notesService) {
-    this.svc = notesService;
-  }
-  addNote = async (req, res) => {};
+import NoteService from "../service/notes.js";
 
-  getNote = async (req, res) => {};
+class NoteController {
+  constructor() {
+    this.noteService = new NoteService();
+  }
+
+  addNote = async (req, res) => {
+    try {
+      const data = req.body
+      const result = await this.noteService.addNote(data)
+      res.status(201).json(result)
+    } catch (error) {
+      console.log("Controller Error, ", error)
+    }
+  };
+
+  getNote = async (req, res) => {
+    try {
+      const data = req.params.id
+      const result = await this.noteService.findNote(data)
+      if (!result) {
+        res.status(404)
+      }
+      res.status(200).json(result)
+    } catch (error) {
+      console.log("Controller Error, ", error)
+    }
+  };
+
+  getManyNote = async (req, res) => {
+    try {
+      const result = await this.noteService.findManyNote()
+      if (!result) {
+        res.status(404)
+      }
+      res.status(200).json(result)
+    } catch (error) {
+      console.log("Controller Error, ", error)
+    }
+  };
 }
 
-export default NotesController;
+export default NoteController

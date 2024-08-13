@@ -1,11 +1,23 @@
-import express from "express";
-import { prisma } from "./config/database.js"
-import NotesController from "./controller/notes.js";
+import express, { json } from "express";
+import database from "./config/database.js"
+import apiRouter from "./routes/index.js";
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
-prisma ? console.log("Connection Success") : console.log("Connection Failed")
+app.use(json())
+
+try {
+  await database.$connect();
+} catch (error) {
+  console.error(error);
+}
+
+app.get("/", (req, res) => {
+  res.send("SerdaduNote Backend");
+});
+
+apiRouter(app)
 
 app.listen(port, () => {
   console.log(`Notes app listening on port ${port}`);

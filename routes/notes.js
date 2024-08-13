@@ -1,6 +1,11 @@
-export default (router, controller) => {
-  router.post("/notes", controller.addNote);
-  router.get("/notes", controller.getNote);
+import { Router } from "express";
+import NoteController from "../controller/notes.js";
 
-  return router;
-};
+const router = Router()
+const controller = new NoteController
+router
+  .post('/', controller.addNote)
+  .get('/', controller.getManyNote)
+  .get('/:id', controller.getNote)
+
+export default router
