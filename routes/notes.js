@@ -7,5 +7,7 @@ router
   .post('/', controller.addNote)
   .get('/', controller.getManyNote)
   .get('/:id', controller.getNote)
+  .put('/:id', controller.updateNote)
+  .delete('/:id', controller.deleteNote)
 
 export default router

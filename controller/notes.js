@@ -39,6 +39,32 @@ class NoteController {
       console.log("Controller Error, ", error)
     }
   };
+
+  updateNote = async (req, res) => {
+    try {
+      const data = req.body
+      const id = req.params.id
+      const result = await this.noteService.updateNote(id, data)
+      if (!result) {
+        res.status(404)
+      }
+      res.status(200).json(result)
+    } catch (error) {
+      console.log("Controller Error, ", error)
+}
+  };
+  deleteNote = async (req, res) => {
+    try {
+      const id = req.params.id
+      const result = await this.noteService.deleteNote(id)
+      if (!result) {
+        res.status(404)
+      }
+      res.status(200).json(result)
+    } catch (error) {
+      console.log("Controller Error, ", error)
+}
+  }
 }
 
 export default NoteController

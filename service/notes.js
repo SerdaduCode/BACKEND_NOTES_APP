@@ -36,6 +36,30 @@ class NoteService {
             console.error('Service Error:', error);
         }
     }
+
+    async updateNote(id, data) {
+        try {
+            const note = await Note.updateNote(id, data);
+            if (!note) {
+                throw new Error('Catatan tidak ditemukan.');
+            }
+            return note;
+        } catch (error) {
+            console.error('Service Error:', error);
+        }
+    }
+
+    async deleteNote(id) {
+        try {
+            const note = await Note.deleteNote(id);
+            if (!note) {
+                throw new Error('Catatan tidak ditemukan.');
+            }
+            return note;
+        } catch (error) {
+            console.error('Service Error:', error);
+        }
+    }
 }
 
 export default NoteService

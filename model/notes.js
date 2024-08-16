@@ -30,6 +30,24 @@ class Note {
         }
     }
 
+    static async updateNote(id, data) {
+        try {
+            const note = await database.note.update({ where: { id }, data })
+            return note
+        } catch (error) {
+            console.log("Model Error, ", error)
+        }
+    }
+
+    static async deleteNote(id) {
+        try {
+            const note = await database.note.delete({ where: { id } })
+            return note
+        } catch (error) {
+            console.log("Model Error, ", error)
+        }
+    }
+
 }
 
 export default Note
