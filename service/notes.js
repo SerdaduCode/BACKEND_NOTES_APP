@@ -37,6 +37,15 @@ class NoteService {
         }
     }
 
+    async findArchivedNote() {
+        try {
+            const notes = await Note.findArchivedNote();
+            return notes;
+        } catch (error) {
+            console.error('Service Error:', error);
+        }
+    }
+
     async updateNote(id, data) {
         try {
             const note = await Note.updateNote(id, data);

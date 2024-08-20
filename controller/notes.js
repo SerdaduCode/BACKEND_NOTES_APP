@@ -30,13 +30,20 @@ class NoteController {
 
   getManyNote = async (req, res) => {
     try {
-      const result = await this.noteService.findManyNote()
-      if (!result) {
-        res.status(404)
+      const { filter } = req.query;
+      let result;
+      if (filter === 'archive') {
+        result = await this.noteService.findArchivedNote();
+      } else {
+        result = await this.noteService.findManyNote();
       }
-      res.status(200).json(result)
+      if (!result) {
+        return res.status(404).json({ message: "No notes found" });
+      }
+      res.status(200).json(result);
     } catch (error) {
-      console.log("Controller Error, ", error)
+      console.log("Controller Error, ", error);
+      res.status(500).json({ message: "Internal server error" });
     }
   };
 
@@ -51,7 +58,7 @@ class NoteController {
       res.status(200).json(result)
     } catch (error) {
       console.log("Controller Error, ", error)
-}
+    }
   };
   deleteNote = async (req, res) => {
     try {
@@ -63,7 +70,7 @@ class NoteController {
       res.status(200).json(result)
     } catch (error) {
       console.log("Controller Error, ", error)
-}
+    }
   }
 }
 

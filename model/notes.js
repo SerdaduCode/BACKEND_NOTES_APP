@@ -48,6 +48,18 @@ class Note {
         }
     }
 
+    static async findArchivedNote(params) {
+        try {
+            const note = await database.note.findMany({
+                where: {
+                    archived: true
+                }
+            })
+            return note
+        } catch (error) {
+            console.log("Model Error, ", error)
+        }
+    }
 }
 
 export default Note
