@@ -1,3 +1,4 @@
+import { addNoteSchema, idSchema, getManyNoteSchema } from '../middleware/notes.js';
 import NoteService from "../service/notes.js";
 
 class NoteController {
@@ -7,32 +8,43 @@ class NoteController {
 
   addNote = async (req, res) => {
     try {
-      const data = req.body
-      const result = await this.noteService.addNote(data)
-      res.status(201).json(result)
+      const { error, value } = addNoteSchema.validate(req.body);
+      if (error) {
+        return res.status(400).json({ message: error.details[0].message });
+      }
+      const result = await this.noteService.addNote(value);
+      res.status(201).json(result);
     } catch (error) {
-      console.log("Controller Error, ", error)
+      console.log("Controller Error, ", error);
+      res.status(500).json({ message: "Internal server error" });
     }
   };
 
   getNote = async (req, res) => {
     try {
-      const data = req.params.id
-      const result = await this.noteService.findNote(data)
-      if (!result) {
-        res.status(404)
+      const { error, value } = idSchema.validate(req.params);
+      if (error) {
+        return res.status(400).json({ message: error.details[0].message });
       }
-      res.status(200).json(result)
+      const result = await this.noteService.findNote(value.id);
+      if (!result) {
+        return res.status(404).json({ message: "Note not found" });
+      }
+      res.status(200).json(result);
     } catch (error) {
-      console.log("Controller Error, ", error)
+      console.log("Controller Error, ", error);
+      res.status(500).json({ message: "Internal server error" });
     }
   };
 
   getManyNote = async (req, res) => {
     try {
-      const { filter } = req.query;
+      const { error, value } = getManyNoteSchema.validate(req.query);
+      if (error) {
+        return res.status(400).json({ message: error.details[0].message });
+      }
       let result;
-      if (filter === 'archive') {
+      if (value.filter === 'archive') {
         result = await this.noteService.findArchivedNote();
       } else {
         result = await this.noteService.findManyNote();
