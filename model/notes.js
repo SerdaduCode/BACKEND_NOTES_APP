@@ -23,7 +23,20 @@ class Note {
 
   static async findManyNote() {
     try {
-      const notes = await database.note.findMany();
+      const notes = await database.note.findMany({
+        where: { archived: false },
+      });
+      return notes;
+    } catch (error) {
+      console.log("Model Error, ", error);
+    }
+  }
+
+  static async findManyArchivedNote() {
+    try {
+      const notes = await database.note.findMany({
+        where: { archived: true },
+      });
       return notes;
     } catch (error) {
       console.log("Model Error, ", error);

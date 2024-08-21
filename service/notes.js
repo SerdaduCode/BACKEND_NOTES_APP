@@ -40,6 +40,15 @@ class NoteService {
       console.error("Service Error:", error);
     }
   }
+
+  async findManyArchivedNote() {
+    try {
+      const notes = await Note.findManyArchivedNote();
+      return notes;
+    } catch (error) {
+      console.error("Service Error:", error);
+    }
+  }
   async findSearch(search) {
     try {
       const notes = await Note.findSearch(search);

@@ -49,6 +49,19 @@ class NoteController {
     }
   };
 
+  getArchivedNote = async (req, res) => {
+    try {
+      const result = await this.noteService.findManyArchivedNote();
+      if (!result || result.length === 0) {
+        return res.status(404).json({ message: "Data not found" });
+      }
+      return res.status(200).json(result);
+    } catch (error) {
+      console.error("Controller Error: ", error);
+      return res.status(500).json({ message: "Internal Server Error" });
+    }
+  };
+
   updateNote = async (req, res) => {
     try {
       const data = req.body;
