@@ -7,7 +7,7 @@ const port = process.env.PORT || 3000;
 
 app.use(json());
 app.use((_, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
+  res.setHeader("Access-Control-Allow-Origin", process.env.CORS_ORIGIN_PORT);
   res.setHeader(
     "Access-Control-Allow-Methods",
     "GET, POST, OPTIONS, PUT, PATCH, DELETE"
